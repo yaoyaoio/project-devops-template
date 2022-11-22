@@ -54,10 +54,13 @@ export ORG_NAME=yaoyaoio
 export BRANCH=main
 ```
 
-## 发布到 Kubernetes
+## 发布到 Kubernetes (依赖环境变量)
 
 ```bash
 envsubst < deploy/prod/deployment.yaml | kubectl apply -f -
 envsubst < deploy/prod/service.yaml | kubectl apply -f -
 ```
 
+## 使用Jenkinsfile
+
+1. 把 Jenkinsfile 复制到 Kubesphere 的 Devops 项目中即可使用
