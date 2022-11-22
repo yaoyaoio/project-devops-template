@@ -3,7 +3,9 @@
 ## 依赖
 
 代码仓库凭证
+
 镜像仓库凭证
+
 KUBECONFIG
 
 ## 容器相关命令
@@ -52,7 +54,7 @@ export ORG_NAME=yaoyaoio
 export BRANCH=main
 ```
 
-## 发布到 kubernetes
+## 发布到 Kubernetes
 
 ```bash
 envsubst < deploy/prod/deployment.yaml | kubectl apply -f -
