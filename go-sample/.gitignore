@@ -16,3 +16,5 @@
 # vendor/
 .idea
 .DS_Store
+
+.target/go-sample

@@ -4,6 +4,9 @@ pipeline {
       label 'base'
     }
   }
+  environment {
+    APP_NAME = "go-sample"
+  }
   stages {
     stage('拉取代码') {
       agent none
