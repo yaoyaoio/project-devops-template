@@ -1,0 +1,56 @@
+pipeline {
+  agent {
+    node {
+      label 'base'
+    }
+  }
+  stages {
+    stage('拉取代码') {
+      agent none
+      steps {
+        git(url: '{仓库地址}', credentialsId: '{仓库凭证}', changelog: true, poll: false,branch: '$BRANCH')
+        script {
+          env.COMMIT_ID="${sh(script:'git rev-parse --short HEAD', returnStdout: true).trim()}"
+          env.VERSION = "${env.COMMIT_ID}"
+        }
+      }
+    }
+
+    stage('编译项目并构建镜像') {
+      agent none
+      steps {
+        container('base') {
+          withCredentials([usernamePassword(credentialsId: '{仓库凭证}', passwordVariable: 'IMAGE_PASSWD', usernameVariable: 'IMAGE_USER',)]) {
+            sh 'echo $IMAGE_PASSWD | docker login $REGISTRY -u $IMAGE_USER --password-stdin'
+          }
+
+          sh """docker build -t $APP_NAME:$VERSION -f Dockerfile ."""
+        }
+
+      }
+    }
+
+    stage('推送镜像') {
+      agent none
+      steps {
+        container('base') {
+          sh """docker tag $APP_NAME:$COMMIT_ID $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION"""
+          sh """docker push $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION"""
+        }
+      }
+    }
+
+    stage('部署到集群') {
+      agent none
+      steps {
+        container('base') {
+          withCredentials([kubeconfigFile(credentialsId: '{KUBECONFIG}', variable: 'KUBECONFIG',)]) {
+            sh 'envsubst < deploy/prod/deployment.yaml | kubectl apply -f -'
+            sh 'envsubst < deploy/prod/service.yaml | kubectl apply -f -'
+          }
+        }
+      }
+    }
+  }
+}
+
