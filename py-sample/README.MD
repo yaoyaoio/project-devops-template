@@ -32,7 +32,7 @@ limactl shell default -- nerdctl push ${IMAGE_NAME}
 ## 快速部署
 
 ```bash
-# kubernetes 部署
+# kubernetes 部署 (envsubst 命令可以读取env环境变量并且把变量替换到文件中)
 envsubst < deploy/prod/deployment.yaml | kubectl apply -f -
 envsubst < deploy/prod/service.yaml | kubectl apply -f -
 # 容器部署
