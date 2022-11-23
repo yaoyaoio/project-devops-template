@@ -39,6 +39,6 @@ envsubst < deploy/prod/service.yaml | kubectl apply -f -
 docker run -d -p 8080:8080 ${IMAGE_NAME}
 ```
 
-## CICD
+## 使用 CICD
 
 返回上一级查看 [README.MD](../README.MD)
