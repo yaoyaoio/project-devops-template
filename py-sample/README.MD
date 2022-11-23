@@ -6,10 +6,10 @@
 # 设置环境变量
 export APP_NAME=py-sample
 export VERSION=0.0.1
-export IMAGE_REGISTRY=registry.cn-hangzhou.aliyuncs.com
-export IMAGE_NAMESPACE=yaoyaoio
-export IMAGE_USER=""
-export IMAGE_PASSWORD=""
+export IMAGE_REGISTRY="{仓库地址}"
+export IMAGE_NAMESPACE="{命名空间/组织空间}"
+export IMAGE_USER="{用户名}"
+export IMAGE_PASSWORD="{密码}"
 export IMAGE_NAME=${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/${APP_NAME}:${VERSION}
 ```
 
@@ -25,6 +25,9 @@ docker push ${IMAGE_NAME}
 ## 快速部署
 
 ```bash
+# kubernetes 部署
 envsubst < deploy/prod/deployment.yaml | kubectl apply -f -
 envsubst < deploy/prod/service.yaml | kubectl apply -f -
+# 容器部署
+docker run -d -p 8080:8080 ${IMAGE_NAME}
 ```
