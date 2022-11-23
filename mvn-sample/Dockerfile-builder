@@ -1,0 +1,11 @@
+FROM maven:3.8.6-openjdk-8 as builder
+LABEL maintainer="YAOYAO<i@yaoyao.io>"
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+RUN mvn clean package
+
+FROM openjdk:8-jdk-alpine
+LABEL maintainer="YAOYAO<i@yaoyao.io>"
+COPY --from=builder /usr/src/app/target/mvn-sample-0.0.1-SNAPSHOT.jar /main.jar
+ENTRYPOINT ["java","-jar","/main.jar"]
+EXPOSE 8080
