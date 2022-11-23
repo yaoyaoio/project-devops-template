@@ -18,8 +18,15 @@ export IMAGE_NAME=${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/${APP_NAME}:${VERSION}
 ```bash
 # 构建镜像
 echo $IMAGE_PASSWD | docker login $IMAGE_REGISTRY -u $IMAGE_USER --password-stdin
+# docker 构建
 docker build -t ${IMAGE_NAME} -f Dockerfile .
 docker push ${IMAGE_NAME}
+# nerdctl 构建
+nerdctl build -t ${IMAGE_NAME} -f Dockerfile .
+nerdctl push ${IMAGE_NAME}
+# lima + nerdctl 构建
+limactl shell default -- nerdctl build -t ${IMAGE_NAME} -f Dockerfile .
+limactl shell default -- nerdctl push ${IMAGE_NAME}
 ```
 
 ## 快速部署
@@ -31,3 +38,7 @@ envsubst < deploy/prod/service.yaml | kubectl apply -f -
 # 容器部署
 docker run -d -p 8080:8080 ${IMAGE_NAME}
 ```
+
+## CICD
+
+返回上一级查看 [README.MD](../README.MD)
