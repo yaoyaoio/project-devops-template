@@ -1,10 +1,22 @@
 # 简单说明
 
-## 依赖
+本项目 CICD 只在 Kubesphere 上测试过，其他平台未测试。
+
+## 依赖 Kubernetes Secret
 
 代码仓库凭证
+如果你使用 Gitlab 作为代码仓库 则需要把 Gitlab 的凭证放到 Kubernetes 的 Secret 中
+
+```bash
+kubectl create secret yaoyao.io code-credentials --from-literal=username=username --from-literal=password=password
+```
 
 镜像仓库凭证
+如果你使用 Harbor 作为镜像仓库 或者使用其他镜像仓库 则需要把相关的凭证放到 Kubernetes 的 Secret 中
+
+```bash
+
+```
 
 KUBECONFIG
 

@@ -11,7 +11,7 @@ pipeline {
     stage('拉取代码') {
       agent none
       steps {
-        git(url: '{仓库地址}', credentialsId: '{仓库凭证}', changelog: true, poll: false,branch: '$BRANCH')
+        git(url: '{仓库地址}', credentialsId: 'code-credentials', changelog: true, poll: false,branch: '$BRANCH')
         script {
           env.COMMIT_ID="${sh(script:'git rev-parse --short HEAD', returnStdout: true).trim()}"
           env.VERSION = "${env.COMMIT_ID}"
@@ -23,7 +23,7 @@ pipeline {
       agent none
       steps {
         container('base') {
-          withCredentials([usernamePassword(credentialsId: '{仓库凭证}', passwordVariable: 'IMAGE_PASSWD', usernameVariable: 'IMAGE_USER',)]) {
+          withCredentials([usernamePassword(credentialsId: 'image-credentials', passwordVariable: 'IMAGE_PASSWD', usernameVariable: 'IMAGE_USER',)]) {
             sh 'echo $IMAGE_PASSWD | docker login $REGISTRY -u $IMAGE_USER --password-stdin'
           }
 
