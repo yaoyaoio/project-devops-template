@@ -17,7 +17,7 @@ export IMAGE_NAME=${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/${APP_NAME}:${VERSION}
 
 ```bash
 # 构建镜像
-echo $IMAGE_PASSWD | docker login $IMAGE_REGISTRY-u $IMAGE_USER --password-stdin
+echo $IMAGE_PASSWD | docker login $IMAGE_REGISTRY -u $IMAGE_USER --password-stdin
 docker build -t ${IMAGE_NAME} -f Dockerfile .
 docker push ${IMAGE_NAME}
 ```
