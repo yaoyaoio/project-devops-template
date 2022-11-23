@@ -5,7 +5,7 @@ pipeline {
     }
   }
   environment {
-    APP_NAME = "go-sample"
+    APP_NAME = "rust-sample"
   }
   stages {
     stage('拉取代码') {

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rust-sample
+  name: rust-sample
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust-sample
+  template:
+    metadata:
+      labels:
+        app: rust-sample
+    spec:
+      containers:
+        - name: rust-sample
+          image: $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          resources:
+            requests:
+              memory: "512Mi"
+            limits:
+              memory: "512Mi"
+
