@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: go-sample
-          image: $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION
+          image: $IMAGE_REGISTRY/$IMAGE_NAMESPACE/$APP_NAME:$VERSION
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

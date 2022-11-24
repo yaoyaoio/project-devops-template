@@ -1,0 +1,6 @@
+FROM alpine
+LABEL maintainer="YaoYao<i@yaoyao.io>"
+WORKDIR /usr/local/app
+COPY target/release/rust-sample /usr/local/app/rust-sample
+ENTRYPOINT ["/usr/local/app/rust-sample"]
+EXPOSE 8080

@@ -28,7 +28,7 @@ pipeline {
             sh 'echo $IMAGE_PASSWD | docker login $IMAGE_REGISTRY -u $IMAGE_USER --password-stdin'
           }
 
-          sh """docker build -t $APP_NAME:$VERSION -f Dockerfile ."""
+          sh """docker build -t $APP_NAME:$VERSION -f Dockerfile-builder ."""
         }
 
       }

@@ -15,6 +15,7 @@ pipeline {
         script {
           env.COMMIT_ID="${sh(script:'git rev-parse --short HEAD', returnStdout: true).trim()}"
           env.VERSION = "${env.COMMIT_ID}"
+          env.IMAGE_NAME = "${env.IMAGE_REGISTRY}/${env.IMAGE_NAMESPACE}/${env.APP_NAME}:${env.VERSION}"
         }
       }
     }
@@ -27,7 +28,7 @@ pipeline {
             sh 'echo $IMAGE_PASSWD | docker login $REGISTRY -u $IMAGE_USER --password-stdin'
           }
 
-          sh """docker build -t $APP_NAME:$VERSION -f Dockerfile ."""
+          sh """docker build -t $APP_NAME:$VERSION -f Dockerfile-builder ."""
         }
 
       }
@@ -37,8 +38,8 @@ pipeline {
       agent none
       steps {
         container('base') {
-          sh """docker tag $APP_NAME:$COMMIT_ID $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION"""
-          sh """docker push $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION"""
+          sh """docker tag $APP_NAME:$VERSION $IMAGE_REGISTRY/$IMAGE_NAMESPACE/$APP_NAME:$VERSION"""
+          sh """docker push $IMAGE_REGISTRY/$IMAGE_NAMESPACE/$APP_NAME:$VERSION"""
         }
       }
     }

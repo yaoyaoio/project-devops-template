@@ -4,7 +4,7 @@
 
 ```bash  
 # 设置环境变量  
-export APP_NAME=py-sample  
+export APP_NAME=py-sample
 export VERSION=0.0.1  
 export IMAGE_REGISTRY="{仓库地址}"  
 export IMAGE_NAMESPACE="{命名空间/组织空间}"  
@@ -25,19 +25,32 @@ docker push ${IMAGE_NAME}
 nerdctl build -t ${IMAGE_NAME} -f Dockerfile .  
 nerdctl push ${IMAGE_NAME}  
 # lima + nerdctl 构建  
-limactl shell default -- nerdctl build -t ${IMAGE_NAME} -f Dockerfile .  
+limactl shell default -- nerdctl build -t ${IMAGE_NAME} -f Dockerfile-builder .  
 limactl shell default -- nerdctl push ${IMAGE_NAME}  
 ```  
 
 ## 快速部署
 
 ```bash  
-# kubernetes 部署 (envsubst 命令可以读取env环境变量并且把变量替换到文件中)  
+# kubernetes 部署 (envsubst 命令可以读取 env 环境变量并且把变量替换到文件中)  
 envsubst < deploy/prod/deployment.yaml | kubectl apply -f -  
 envsubst < deploy/prod/service.yaml | kubectl apply -f -  
-# 容器部署  
+# docker部署  
 docker run -d -p 8080:8080 ${IMAGE_NAME}  
+# nerdctl部署
+nerdctl run -d -p 8080:8080 ${IMAGE_NAME}
+# lima + nerdctl 部署
+limactl shell default -- nerdctl run -d -p 8080:8080 ${IMAGE_NAME}  
 ```  
+
+**注**
+如果使用私有镜像仓库 kubernetes 需要配置镜像仓库的 secret
+
+```yaml
+spec:
+  imagePullSecrets:
+    - name: { secret-name }
+```
 
 ## 使用 CICD
 
