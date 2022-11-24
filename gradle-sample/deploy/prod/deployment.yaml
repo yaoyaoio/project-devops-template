@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mvn-sample
-  name: mvn-sample
+    app: gradle-sample
+  name: gradle-sample
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mvn-sample
+      app: gradle-sample
   template:
     metadata:
       labels:
-        app: mvn-sample
+        app: gradle-sample
     spec:
       containers:
-        - name: mvn-sample
+        - name: gradle-sample
           image: $IMAGE_NAME
           imagePullPolicy: Always
           ports:

@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-sample
+  name: mvn-sample-svc
   namespace: default
 spec:
   ports:
     - name: http
       port: 8080
       targetPort: 8080
-      nodePort: 20388
       protocol: TCP
-  type: NodePort
+  type: ClusterIP
   selector:
-    app: go-sample
+    app: mvn-sample

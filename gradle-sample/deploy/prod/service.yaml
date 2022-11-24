@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-sample-svc
+  name: gradle-sample-svc
   namespace: default
 spec:
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
   type: NodePort
   selector:
-    app: go-sample
+    app: gradle-sample
