@@ -51,7 +51,7 @@ KUBECONFIG 凭证用于连接操作 Kubernetes 集群，需要在流水线中配
 可以在 Kubepshere 工作台 -> 企业空间 -> {你的空间} -> Devops 项目--> {项目名称} -> 凭证 -> 创建凭证 ->
 选择类型为 `KUBECONFIG` 名称为 `kubeconfig-credentials`
 
-[图片所示](./assets/ks-create-secret-kubeconfig.png)
+![图片所示](./assets/ks-create-secret-kubeconfig.png)
 
 ### 镜像仓库凭证
 
@@ -60,7 +60,7 @@ KUBECONFIG 凭证用于连接操作 Kubernetes 集群，需要在流水线中配
 可以在 Kubepshere 工作台 -> 企业空间 -> {你的空间} -> Devops 项目--> {项目名称} -> 凭证 -> 创建凭证 ->
 选择类型为 `用户名和密码（账户凭证）` 名称为 `image-registry-credentials`
 
-[图片所示](./assets/ks-create-secret-image.png)
+![图片所示](./assets/ks-create-secret-image.png)
 
 ### 代码仓库凭证
 
@@ -69,7 +69,7 @@ KUBECONFIG 凭证用于连接操作 Kubernetes 集群，需要在流水线中配
 可以在 Kubepshere 工作台 -> 企业空间 -> {你的空间} -> Devops 项目--> {项目名称} -> 凭证 -> 创建凭证 ->
 选择类型为 `用户名和密码（账户凭证）` 名称为 `git-credentials`
 
-[图片所示](./assets/ks-create-secret-git.png)
+![图片所示](./assets/ks-create-secret-git.png)
 
 以上配置好之后 可以在流水线中使用对应凭证。
 
