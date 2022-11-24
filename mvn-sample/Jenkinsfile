@@ -3,20 +3,19 @@ pipeline {
     node {
       label 'base'
     }
-  }
-  environment {
-    APP_NAME = "go-sample"
+
   }
   stages {
     stage('拉取代码') {
       agent none
       steps {
-        git(url: '{仓库地址}', credentialsId: 'code-credentials', changelog: true, poll: false,branch: '$BRANCH')
+        git(url: '仓库地址', credentialsId: 'git-credentials', changelog: true, poll: false, branch: '$BRANCH')
         script {
           env.COMMIT_ID="${sh(script:'git rev-parse --short HEAD', returnStdout: true).trim()}"
           env.VERSION = "${env.COMMIT_ID}"
           env.IMAGE_NAME = "${env.IMAGE_REGISTRY}/${env.IMAGE_NAMESPACE}/${env.APP_NAME}:${env.VERSION}"
         }
+
       }
     }
 
@@ -24,8 +23,8 @@ pipeline {
       agent none
       steps {
         container('base') {
-          withCredentials([usernamePassword(credentialsId: 'image-credentials', passwordVariable: 'IMAGE_PASSWD', usernameVariable: 'IMAGE_USER',)]) {
-            sh 'echo $IMAGE_PASSWD | docker login $REGISTRY -u $IMAGE_USER --password-stdin'
+          withCredentials([usernamePassword(credentialsId : 'image-registry-credentials' ,passwordVariable : 'IMAGE_PASSWD' ,usernameVariable : 'IMAGE_USER' ,)]) {
+            sh 'echo $IMAGE_PASSWD | docker login $IMAGE_REGISTRY -u $IMAGE_USER --password-stdin'
           }
 
           sh """docker build -t $APP_NAME:$VERSION -f Dockerfile-builder ."""
@@ -38,9 +37,10 @@ pipeline {
       agent none
       steps {
         container('base') {
-          sh """docker tag $APP_NAME:$COMMIT_ID $IMAGE_REGISTRY/$IMAGE_NAMESPACE/$APP_NAME:$VERSION"""
-          sh """docker push $IMAGE_REGISTRY/$IMAGE_NAMESPACE/$APP_NAME:$VERSION"""
+          sh """docker tag $APP_NAME:$VERSION $IMAGE_NAME"""
+          sh """docker push $IMAGE_NAME"""
         }
+
       }
     }
 
@@ -48,13 +48,18 @@ pipeline {
       agent none
       steps {
         container('base') {
-          withCredentials([kubeconfigFile(credentialsId: '{KUBECONFIG}', variable: 'KUBECONFIG',)]) {
+          withCredentials([kubeconfigContent(credentialsId : 'kubeconfig-credentials' ,variable : 'KUBECONFIG' ,)]) {
             sh 'envsubst < deploy/prod/deployment.yaml | kubectl apply -f -'
             sh 'envsubst < deploy/prod/service.yaml | kubectl apply -f -'
           }
+
         }
+
       }
     }
+
+  }
+  environment {
+    APP_NAME = 'mvn-sample'
   }
 }
-
