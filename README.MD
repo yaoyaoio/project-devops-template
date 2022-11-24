@@ -94,6 +94,7 @@ KUBECONFIG 凭证用于连接操作 Kubernetes 集群，需要在流水线中配
 ### 第三步 选择流水线配置文件
 
 这个地方我们选择 编写 `Jenkinsfile` 文件 将{project}下的 `Jenkinsfile` 文件复制到这里
+
 ![3](./assets/ks-create-project-3.png)
 
 ## Jenkinsfile
