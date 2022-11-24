@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: rust-sample
-          image: $REGISTRY/$ORG_NAME/$APP_NAME:$VERSION
+          image: $IMAGE_NAME
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
