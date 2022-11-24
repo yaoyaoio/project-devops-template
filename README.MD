@@ -42,7 +42,7 @@ steps {
 }
 ```
 
-## 凭证
+## 凭证 (Kubernetes Secret)
 
 ### KUBECONFIG 凭证
 
@@ -73,5 +73,21 @@ KUBECONFIG 凭证用于连接操作 Kubernetes 集群，需要在流水线中配
 
 以上配置好之后 可以在流水线中使用对应凭证。
 
+## 流水线 (Jenkinsfile)
 
+每个项目下都有一个 `Jenkinsfile` 文件，这个文件是流水线的配置文件，可以在流水线中配置流水线的各个步骤。
 
+在 Kubesphere 中 可以直接使用 Jenkinsfile 来创建流水线。也可以在 kubeSphere 中可视化创建流水线 最后也会生成 Jenkinsfile
+文件。
+
+以 go-sample 项目为例，
+
+### 第一步 创建流水线
+
+![1](./assets/ks-create-project-1.png)
+
+### 第二步 填写构建参数
+
+![2](./assets/ks-create-project-2.png)
+### 第三步 选择流水线配置文件 这个地方我们选择 编写 `Jenkinsfile` 文件 将{project}下的 `Jenkinsfile` 文件复制到这里
+![3](./assets/ks-create-project-3.png)
