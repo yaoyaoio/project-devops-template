@@ -1,0 +1,12 @@
+FROM gradle:7.5.1-jdk8 as builder
+
+WORKDIR /usr/local/app/
+
+COPY . /usr/local/app/
+
+RUN ./gradlew clean build
+
+FROM openjdk:8-jdk-alpine
+WORKDIR /usr/local/app/
+COPY --from=builder /usr/local/app/build/libs/*.jar /usr/local/app/app.jar
+ENTRYPOINT ["java", "-Duser.timezone=GMT+8 -Xms256m -Xmx2048m","-jar", "app.jar"]
