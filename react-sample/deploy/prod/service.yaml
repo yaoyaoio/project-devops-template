@@ -1,0 +1,20 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: blog-v2
+  namespace: blog
+  labels:
+    app: blog-v2
+spec:
+  ports:
+    - name: http-80
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+  selector:
+    app: blog-v2
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack

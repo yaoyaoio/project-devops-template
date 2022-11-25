@@ -1,0 +1,20 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: vue-sample
+  namespace: default
+  labels:
+    app: vue-sample
+spec:
+  ports:
+    - name: http-80
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+  selector:
+    app: vue-sample
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
